@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>RSM Group · প্রিমিয়াম ই-কমার্স</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8FAFC; --bg-card: #FFFFFF; --bg-soft: #F1F5F9;
+      --primary: #0A3D2E; --primary-light: #16745A;
+      --accent: #0E9F6E; --gold: #D4A017; --gold-light: #F0C040;
+      --text: #0F172A; --text-muted: #64748B;
+      --border: #E2E8F0; --border-strong: #CBD5E1;
+      --danger: #DC2626; --success: #059669; --info: #2563EB;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+      --shadow-hover: 0 8px 28px rgba(0,0,0,0.10);
+      --transition: all 0.18s ease;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+    html, body {
+      width: 100%; min-height: 100vh;
+      background: var(--bg); color: var(--text);
+      line-height: 1.55; font-weight: 500; overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 46px;
+    }
+    button, input, select, textarea { font-family: inherit; font-size: 15px; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    svg { display: block; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 1000;
+      width: 100%; background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px; display: flex; align-items: center;
+      justify-content: space-between; box-shadow: var(--shadow);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
+    .menu-btn {
+      width: 44px; height: 44px; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      display: flex; flex-direction: column; justify-content: center;
+      align-items: center; gap: 5px; cursor: pointer; transition: var(--transition);
+    }
+    .menu-btn:hover { border-color: var(--accent); background: var(--bg-soft); }
+    .menu-btn span { width: 20px; height: 2px; background: var(--primary); border-radius: 2px; }
+    .brand-box { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .brand-logo { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; border: 2px solid var(--gold); background: var(--bg-card); }
+    .brand-name { font-weight: 800; font-size: 21px; color: var(--primary); letter-spacing: -0.4px; }
+    .brand-name span { color: var(--gold); }
+    .cart-icon-btn {
+      position: relative; width: 46px; height: 46px;
+      border-radius: 12px; background: var(--bg-card);
+      border: 1px solid var(--border); display: flex;
+      align-items: center; justify-content: center; cursor: pointer;
+      transition: var(--transition);
+    }
+    .cart-icon-btn:hover { border-color: var(--accent); background: var(--bg-soft); }
+    .cart-icon-btn svg { stroke: var(--primary); }
+    .cart-badge {
+      position: absolute; top: -6px; right: -6px;
+      background: var(--accent); color: #FFF; font-size: 11px;
+      font-weight: 800; min-width: 21px; height: 21px;
+      border-radius: 99px; display: flex; align-items: center;
+      justify-content: center; padding: 0 5px; border: 2px solid var(--bg);
+    }
+
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.45); z-index: 2000; display: none; backdrop-filter: blur(4px); }
+    .drawer-overlay.open { display: block; animation: fadeIn 0.2s ease; }
+    .sidebar {
+      position: fixed; top: 0; left: -330px; width: 312px; height: 100%;
+      background: var(--bg-card); z-index: 2100;
+      transition: left 0.28s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; box-shadow: var(--shadow-hover);
+      border-right: 1px solid var(--border);
+    }
+    .sidebar.open { left: 0; }
+    .sidebar-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #FFF; padding: 26px 22px; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .sidebar-brand { display: flex; align-items: center; gap: 14px; }
+    .sidebar-brand img { width: 50px; height: 50px; border-radius: 12px; border: 2px solid var(--gold-light); object-fit: cover; }
+    .close-drawer {
+      background: rgba(255,255,255,0.15); border: none; color: #FFF;
+      width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--transition);
+    }
+    .close-drawer:hover { background: rgba(255,255,255,0.28); }
+    .nav-list { padding: 16px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .nav-item {
+      display: flex; align-items: center; gap: 15px; padding: 14px 18px;
+      border-radius: 12px; font-weight: 600; font-size: 15.5px;
+      color: var(--text); cursor: pointer; border: none; background: transparent;
+      text-align: left; width: 100%; transition: var(--transition);
+    }
+    .nav-item:hover { background: var(--bg-soft); }
+    .nav-item.active {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #FFF; font-weight: 700;
+      border-left: 4px solid var(--gold);
+    }
+    .nav-item.active .icon svg { stroke: #FFF; }
+    .nav-item .icon { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .nav-item .icon svg { width: 20px; height: 20px; stroke: var(--text-muted); stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .nav-item:hover .icon svg { stroke: var(--primary); }
+
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 20px 16px 20px; }
+    .page-view { display: none; width: 100%; }
+    .page-view.active { display: block; animation: fadeIn 0.22s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .home-single-banner {
+      width: 100%; border-radius: var(--radius); overflow: hidden;
+      margin-bottom: 26px; border: 1px solid var(--border);
+      box-shadow: var(--shadow); background: var(--bg-soft);
+      aspect-ratio: 16/7; max-height: 460px;
+    }
+    @media (min-width: 1024px) { .home-single-banner { aspect-ratio: 21/6; } }
+    .home-single-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .notice-banners-list { display: flex; flex-direction: column; gap: 18px; margin-top: 22px; }
+    .notice-banner-card { width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--bg-card); }
+    .notice-banner-card img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+    .search-bar { display: flex; gap: 12px; margin-bottom: 24px; }
+    .search-bar input {
+      flex: 1; padding: 15px 20px; border-radius: 12px;
+      border: 1px solid var(--border-strong); background: var(--bg-card);
+      color: var(--text); font-size: 15px; font-weight: 500; transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .search-bar input::placeholder { color: var(--text-muted); }
+    .search-bar input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(14,159,110,0.12); }
+
+    .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+    @media (min-width: 1100px) { .product-grid { grid-template-columns: repeat(4, 1fr); gap: 22px; } }
+    .product-card {
+      background: var(--bg-card); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      cursor: pointer; display: flex; flex-direction: column;
+      transition: var(--transition); -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .product-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .product-card:active { transform: scale(0.98); }
+    .product-thumb { width: 100%; aspect-ratio: 1/1; object-fit: cover; background: var(--bg-soft); pointer-events: none; }
+    .product-info { padding: 15px; flex: 1; display: flex; flex-direction: column; pointer-events: none; }
+    .product-title {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; margin-bottom: 8px; line-height: 1.4; min-height: 2.8em;
+    }
+    .product-price-box { margin-top: auto; }
+    .product-price { font-size: 20px; font-weight: 800; color: var(--primary); }
+    .product-rating { font-size: 12.5px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+    .product-rating span { color: var(--gold); }
+
+    /* Skeleton loader */
+    .skeleton-card { background: var(--bg-card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .skeleton-thumb { width: 100%; aspect-ratio: 1/1; background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite; }
+    .skeleton-info { padding: 15px; }
+    .skeleton-line { height: 12px; background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%); background-size: 200% 100%; border-radius: 6px; margin-bottom: 10px; animation: shimmer 1.3s infinite; }
+    .skeleton-line.short { width: 60%; }
+    .skeleton-line.tiny { width: 40%; height: 16px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* Product Image Slider */
+    .product-slider-container {
+      width: 100%; position: relative; margin-bottom: 22px;
+      border-radius: 14px; overflow: hidden; background: var(--bg-soft);
+      border: 1px solid var(--border);
+    }
+    .product-slider-track {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+      scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .product-slider-track::-webkit-scrollbar { display: none; }
+    .product-slide-item {
+      flex: 0 0 100%; scroll-snap-align: center;
+      aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-soft);
+    }
+    .product-slide-item img {
+      width: 100%; height: 100%; object-fit: cover; pointer-events: none;
+    }
+    /* Slider Dots */
+    .slider-dots {
+      position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 6px; background: rgba(0,0,0,0.4); padding: 6px 10px; border-radius: 20px;
+    }
+    .slider-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.5);
+      transition: all 0.2s ease;
+    }
+    .slider-dot.active { background: #FFF; width: 16px; border-radius: 4px; }
+
+    .card {
+      background: var(--bg-card); border-radius: var(--radius); padding: 24px;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      margin-bottom: 22px; color: var(--text); width: 100%;
+    }
+    .center-logo-box { text-align: center; margin-bottom: 22px; padding-bottom: 16px; border-bottom: 1px dashed var(--border-strong); }
+    .center-logo-box img { width: 72px; height: 72px; border-radius: 16px; border: 2.5px solid var(--gold); object-fit: cover; margin: 0 auto 10px; }
+    .center-logo-box h3 { font-size: 22px; font-weight: 800; color: var(--primary); }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 7px; color: var(--text-muted); }
+    .form-control {
+      width: 100%; padding: 14px 16px; border-radius: 10px;
+      border: 1px solid var(--border-strong); font-size: 15px;
+      background: var(--bg-card); color: var(--text); font-weight: 500; transition: var(--transition);
+    }
+    .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(14,159,110,0.12); }
+    .form-control[readonly] { background: var(--bg-soft); color: var(--text-muted); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 24px; border-radius: 11px; font-weight: 700;
+      font-size: 15px; border: none; cursor: pointer; width: 100%; transition: var(--transition);
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%); color: #FFF; }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(10,61,46,0.25); }
+    .btn-accent { background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--primary); }
+    .btn-accent:hover { box-shadow: 0 6px 20px rgba(212,160,23,0.30); }
+    .btn-outline { background: var(--bg-card); color: var(--primary); border: 1px solid var(--primary-light); }
+    .btn-outline:hover { background: var(--primary); color: #FFF; }
+    .btn-compact { padding: 10px 18px !important; font-size: 14px !important; font-weight: 700 !important; border-radius: 10px !important; width: auto !important; gap: 7px !important; }
+    .btn-slim { padding: 11px 18px; font-size: 14px; font-weight: 700; border-radius: 10px; width: auto; display: inline-flex; align-items: center; gap: 7px; cursor: pointer; border: none; transition: var(--transition); }
+    .btn-slim:hover { opacity: 0.9; }
+
+    .copy-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 6px 14px; font-size: 12.5px; font-weight: 700;
+      border-radius: 8px; border: 1px solid var(--border-strong);
+      background: var(--bg-card); color: var(--primary); cursor: pointer;
+      transition: var(--transition); white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--bg-soft); border-color: var(--accent); color: var(--accent); }
+    .copy-btn svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .copy-btn:active { transform: scale(0.96); }
+
+    .profile-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #FFF; border-radius: var(--radius); padding: 26px;
+      margin-bottom: 22px; box-shadow: var(--shadow-hover);
+    }
+    .balance-row {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+      background: rgba(255,255,255,0.12); padding: 16px 20px;
+      border-radius: 12px; margin-top: 16px; border: 1px solid rgba(255,255,255,0.18);
+    }
+    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 22px; }
+    .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; color: var(--text); box-shadow: var(--shadow); }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(15,23,42,0.55);
+      z-index: 3000; display: none; align-items: center; justify-content: center;
+      padding: 22px; backdrop-filter: blur(6px);
+    }
+    .modal-backdrop.show { display: flex; animation: fadeIn 0.2s ease; }
+    .modal-box {
+      background: var(--bg-card); border-radius: 20px; max-width: 440px; width: 100%;
+      padding: 30px 24px; text-align: center; box-shadow: var(--shadow-hover);
+      border: 1px solid var(--border); border-top: 5px solid var(--accent); color: var(--text);
+      animation: modalPop 0.22s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes modalPop { 0% { transform: scale(0.94); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+    #copiedPopup {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(15,23,42,0.55);
+      display: none; align-items: center; justify-content: center;
+      padding: 22px; backdrop-filter: blur(4px);
+    }
+    #copiedPopup.show { display: flex; animation: fadeIn 0.18s ease; }
+    .copied-card {
+      background: #FFFFFF; border-radius: 22px; padding: 36px 32px;
+      max-width: 320px; width: 100%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: copiedPop 0.28s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes copiedPop { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .copied-check {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: #22C55E; margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 28px rgba(34,197,94,0.4);
+      animation: checkBounce 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes checkBounce { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    .copied-check svg { width: 42px; height: 42px; stroke: #FFFFFF; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .copied-text { font-size: 24px; font-weight: 800; color: #0F172A; letter-spacing: -0.5px; }
+    .copied-sub { font-size: 14px; color: #64748B; font-weight: 500; margin-top: 4px; }
+
+    .fixed-footer {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      z-index: 900; background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      padding: 10px 16px; text-align: center;
+      font-size: 12.5px; color: var(--text-muted); font-weight: 600;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.04);
+    }
+    .fixed-footer a { color: var(--info); font-weight: 800; transition: var(--transition); }
+    .fixed-footer a:hover { text-decoration: underline; color: #1D4ED8; }
+
+    .refer-link-box {
+      background: var(--bg-soft); border: 1px dashed var(--border-strong);
+      border-radius: 10px; padding: 12px 14px; margin-top: 12px;
+      font-size: 13px; color: var(--text-muted); word-break: break-all;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      flex-wrap: wrap;
+    }
+    .refer-link-box code { color: var(--primary); font-weight: 700; font-size: 12.5px; }
+
+    .history-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border); gap: 12px;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .status-badge { padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 800; letter-spacing: 0.3px; }
+    .status-pending { background: #FEF3C7; color: #92400E; }
+    .status-approved { background: #D1FAE5; color: #065F46; }
+    .status-rejected { background: #FEE2E2; color: #991B1B; }
+
+    .reg-blocked-banner {
+      background: linear-gradient(135deg, #FEE2E2, #FECACA);
+      border: 2px solid #DC2626; border-radius: 12px;
+      padding: 22px 20px; text-align: center; margin-bottom: 20px;
+    }
+    .reg-blocked-banner p { font-size: 15px; font-weight: 700; color: #7F1D1D; margin-bottom: 10px; line-height: 1.6; }
+    .reg-blocked-banner .small-note { font-size: 13px; font-weight: 500; color: #991B1B; }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="toggleDrawer(true)" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="brand-box" onclick="navigateTo('home')">
+        <img src="https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg" alt="RSM Group" class="brand-logo">
+        <div class="brand-name">RSM <span>Group</span></div>
+      </div>
+    </div>
+    <button class="cart-icon-btn" onclick="navigateTo('cart')" aria-label="Cart">
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span class="cart-badge" id="cartCountBadge">0</span>
+    </button>
+  </header>
+
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
+  <aside class="sidebar" id="sidebarDrawer">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <img src="https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg" alt="RSM Group">
+        <div>
+          <div style="font-weight:800; font-size:18px; color:#FFF;">RSM Group</div>
+          <div style="font-size:13px; color:var(--gold-light); font-weight:700;" id="sidebarUserLabel">অতিথি ব্যবহারকারী</div>
+        </div>
+      </div>
+      <button class="close-drawer" onclick="toggleDrawer(false)" aria-label="Close">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke-width="2" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="nav-list">
+      <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
+        <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        <span>হোম</span>
+      </button>
+      <button class="nav-item" data-page="profile" onclick="handleProfileNav()">
+        <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+        <span>প্রোফাইল</span>
+      </button>
+      <button class="nav-item" data-page="cart" onclick="navigateTo('cart')">
+        <span class="icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.5"/><circle cx="20" cy="21" r="1.5"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+        <span>কার্ট</span>
+      </button>
+      <button class="nav-item" data-page="orders" onclick="navigateTo('orders')">
+        <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+        <span>আমার অর্ডার</span>
+      </button>
+      <button class="nav-item" data-page="notice" onclick="navigateTo('notice')">
+        <span class="icon"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+        <span>নোটিশ</span>
+      </button>
+      <button class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+        <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+        <span>সেটিংস</span>
+      </button>
+    </nav>
+  </aside>
+
+  <main class="container">
+
+    <div id="page-home" class="page-view active">
+      <div class="home-single-banner">
+        <img src="https://i.ibb.co.com/Lzkq0LWM/IMG-20261118-WA0013.jpg" alt="RSM Group Welcome Banner">
+      </div>
+      <div class="search-bar">
+        <input type="text" id="searchProductInput" placeholder="পণ্য খুঁজুন..." oninput="filterProducts()">
+      </div>
+      <div class="product-grid" id="productGridContainer">
+        <!-- Skeleton loader -->
+        <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-thumb"></div><div class="skeleton-info"><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line tiny"></div></div></div>
+      </div>
+    </div>
+
+    <div id="page-details" class="page-view">
+      <button class="btn btn-outline btn-compact" style="margin-bottom:20px;" onclick="navigateTo('home')">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span>হোমে ফিরে যান</span>
+      </button>
+      <div class="card" id="productDetailsContent"></div>
+    </div>
+
+    <div id="page-cart" class="page-view">
+      <div class="card" style="max-width:780px; margin:0 auto;">
+        <h3 style="margin-bottom:20px; color:var(--primary); font-size:21px; font-weight:800;">আপনার কার্ট</h3>
+        <div id="cartItemsList"></div>
+        <div id="cartSummaryBox" style="margin-top:22px; border-top:1px solid var(--border); padding-top:18px; display:none;">
+          <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:800; margin-bottom:20px;">
+            <span>মোট টাকা:</span>
+            <span id="cartTotalPrice" style="color:var(--primary);">৳0</span>
+          </div>
+          <button class="btn btn-primary" onclick="proceedToOrderFromCart()">অর্ডার কনফার্ম করুন</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-order" class="page-view">
+      <div class="card" style="max-width:720px; margin:0 auto;">
+        <div class="center-logo-box">
+          <img src="https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg" alt="RSM Group">
+          <h3>অর্ডার নিশ্চিতকরণ ফর্ম</h3>
+          <p style="font-size:14px; color:var(--text-muted);">নিচের ঠিকানা ঘরগুলো স্পষ্টভাবে পূরণ করুন</p>
+        </div>
+        <div id="directOrderSummaryBox" style="background:var(--bg-soft); padding:16px; border-radius:11px; margin-bottom:20px; border:1px solid var(--border);"></div>
+        <form id="checkoutForm" onsubmit="submitOrder(event)">
+          <div class="form-group"><label>পুরো নাম *</label><input type="text" class="form-control" id="orderFullName" required></div>
+          <div class="form-group"><label>মোবাইল নম্বর *</label><input type="tel" class="form-control" id="orderMobile" required></div>
+          <div class="form-group"><label>জেলা *</label><input type="text" class="form-control" id="orderJela" required></div>
+          <div class="form-group"><label>থানা *</label><input type="text" class="form-control" id="orderThana" required></div>
+          <div class="form-group"><label>ইউনিয়ন *</label><input type="text" class="form-control" id="orderUnion" required></div>
+          <div class="form-group"><label>পেমেন্ট পদ্ধতি</label><input class="form-control" value="ক্যাশ অন ডেলিভারি" readonly></div>
+          <div class="form-group" id="walletPayGroup" style="display:none;">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="useWalletBalance" style="width:18px; height:18px; accent-color:var(--accent);" onchange="updateWalletAmount()">
+              <span style="color:var(--primary); font-weight:700;">ওয়ালেট ব্যালেন্স ব্যবহার করুন</span>
+            </label>
+            <div id="walletHint" style="font-size:13px; color:var(--text-muted); margin-top:6px;"></div>
+          </div>
+          <div class="form-group"><label>রেফার কোড (ঐচ্ছিক)</label><input type="text" class="form-control" id="orderReferralCode" placeholder="যদি থাকে লিখুন"></div>
+          <div class="form-group"><label>গ্রাম *</label><input type="text" class="form-control" id="orderGram" required></div>
+          <button type="submit" class="btn btn-primary" style="margin-top:16px;">অর্ডার প্লেস করুন</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="page-auth" class="page-view">
+      <div class="card" style="max-width:480px; margin:20px auto;">
+        <div class="center-logo-box">
+          <img src="https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg" alt="RSM Group">
+          <h3 id="authTitle">নতুন অ্যাকাউন্ট তৈরি করুন</h3>
+          <p style="font-size:14px; color:var(--text-muted); font-weight:500;" id="authSubtitle">মোবাইল নম্বর দিয়ে অ্যাকাউন্ট তৈরি করুন</p>
+        </div>
+        <div id="authNoticeBox"></div>
+        <form id="authForm" onsubmit="handleAuthSubmit(event)">
+          <div class="form-group" id="groupFullName"><label>পুরো নাম *</label><input type="text" class="form-control" id="authFullName"></div>
+          <div class="form-group" id="groupPhone"><label>মোবাইল নম্বর *</label><input type="tel" class="form-control" id="authPhone" inputmode="tel" placeholder="01XXXXXXXXX"></div>
+          <div class="form-group"><label>পাসওয়ার্ড *</label><input type="password" class="form-control" id="authPassword" required></div>
+          <div class="form-group" id="groupConfirmPassword"><label>কনফার্ম পাসওয়ার্ড *</label><input type="password" class="form-control" id="authConfirmPassword"></div>
+          <div class="form-group" id="groupReferCode"><label>রেফার কোড (ঐচ্ছিক)</label><input type="text" class="form-control" id="authReferInput" placeholder="যেমন: 1120"></div>
+          <button type="submit" class="btn btn-primary" id="authSubmitBtn" style="margin-top:16px;">রেজিস্ট্রেশন করুন</button>
+        </form>
+        <div style="text-align:center; margin-top:20px; font-size:15px;">
+          <span id="authToggleText">আগেই অ্যাকাউন্ট আছে?</span>
+          <button type="button" class="btn-slim btn-outline" style="margin-left:10px;" onclick="toggleAuthMode()" id="authToggleBtn">লগইন করুন</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-profile" class="page-view">
+      <div class="profile-hero">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+          <div>
+            <div style="font-size:13px; opacity:0.85; font-weight:700;">ইউজার অ্যাকাউন্ট</div>
+            <h3 id="profileUserName" style="font-size:23px; font-weight:800;">নাম</h3>
+            <p id="profileUserEmail" style="font-size:14px; opacity:0.9;">phone</p>
+          </div>
+          <button class="btn-slim" style="background:rgba(255,255,255,0.18); color:#FFF;" onclick="logoutUser()">লগআউট</button>
+        </div>
+        <div class="balance-row">
+          <div>
+            <div style="font-size:13px; opacity:0.85; font-weight:700;">মোট রেফার ব্যালেন্স</div>
+            <div id="profileBalance" style="font-size:27px; font-weight:800; color:var(--gold-light);">৳0</div>
+          </div>
+          <button class="btn-slim btn-accent" onclick="openWithdrawModal()">উইথড্র (টাকা তুলুন)</button>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div style="font-size:14px; color:var(--text-muted); font-weight:700;">মোট রেফার</div>
+          <div id="profileTotalRefers" style="font-size:26px; font-weight:800; color:var(--accent);">0</div>
+        </div>
+        <div class="stat-box">
+          <div style="font-size:14px; color:var(--text-muted); font-weight:700;">আপনার রেফার কোড</div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px;">
+            <span id="profileReferCode" style="font-size:22px; font-weight:800; color:var(--gold); letter-spacing:1.5px;">****</span>
+            <button class="copy-btn" onclick="copyText(document.getElementById('profileReferCode').innerText)">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              COPY
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="font-size:17px; font-weight:800; color:var(--primary); margin-bottom:6px;">আপনার রেফার লিংক</h4>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:4px;">এই লিংক শেয়ার করলে এক ক্লিকে অ্যাকাউন্ট তৈরি হবে এবং আপনার রেফার কোড অটো বসবে।</p>
+        <div class="refer-link-box">
+          <code id="profileReferLink">লোড হচ্ছে...</code>
+          <button class="copy-btn" onclick="copyText(document.getElementById('profileReferLink').innerText)">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            COPY
+          </button>
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="font-size:17px; font-weight:800; color:var(--primary); margin-bottom:16px;">রেফার ও ইনকাম হিস্ট্রি (২০ দিন)</h4>
+        <div id="referHistoryList"><p style="font-size:15px; color:var(--text-muted);">এখনও কোনো রেফার হিস্ট্রি নেই।</p></div>
+      </div>
+    </div>
+
+    <div id="page-orders" class="page-view">
+      <div class="card">
+        <h3 style="font-size:21px; font-weight:800; color:var(--primary); margin-bottom:16px;">আমার অর্ডারসমূহ</h3>
+        <p style="font-size:14px; color:var(--text-muted); margin-bottom:18px;">*২০ মিনিটের মধ্যে অর্ডার ক্যানসেল করা যাবে।</p>
+        <div id="myOrdersList"></div>
+      </div>
+    </div>
+
+    <div id="page-notice" class="page-view">
+      <div class="card" style="max-width:900px; margin:0 auto;">
+        <h3 style="font-size:22px; font-weight:800; color:var(--primary); margin-bottom:18px;">জরুরি নোটিশ ও সকল ব্যানার</h3>
+        <div style="background:var(--bg-soft); border-left:5px solid var(--accent); padding:20px; border-radius:11px; border:1px solid var(--border);">
+          <h4 style="font-size:17px; font-weight:800; color:var(--primary); margin-bottom:8px;">RSM Group-এ স্বাগতম!</h4>
+          <p style="font-size:15px; color:var(--text-muted);">অ্যাকাউন্ট ছাড়াই অর্ডার করতে পারবেন। অ্যাকাউন্ট তৈরি বা লগইন করতে হলে ২০০+ টাকার Approved অর্ডার থাকতে হবে।</p>
+        </div>
+        <div class="notice-banners-list" id="liveNoticeBanners">
+          <p style="color:var(--text-muted);">নোটিশ লোড হচ্ছে...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-settings" class="page-view">
+      <div class="card" style="max-width:480px; margin:0 auto;">
+        <h3 style="font-size:20px; font-weight:800; color:var(--primary); margin-bottom:20px;">সেটিংস</h3>
+        <div class="form-group">
+          <label>ভাষা নির্বাচন করুন (Select Language)</label>
+          <select class="form-control" id="languageSelector" onchange="changeLanguage(this.value)">
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="copiedPopup">
+    <div class="copied-card">
+      <div class="copied-check">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="copied-text" id="copiedText">Copied!</div>
+      <div class="copied-sub">ক্লিপবোর্ডে কপি হয়েছে</div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="customAlertModal">
+    <div class="modal-box">
+      <img src="https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg" alt="RSM Group" style="width:60px; height:60px; border-radius:14px; border:2.5px solid var(--gold); object-fit:cover; margin:0 auto 14px;">
+      <h3 id="customAlertTitle" style="font-size:19px; font-weight:800; color:var(--primary); margin-bottom:8px;">Alert</h3>
+      <p id="customAlertMsg" style="font-size:15px; color:var(--text-muted); font-weight:500; margin-bottom:22px;"></p>
+      <button class="btn btn-primary" onclick="closeCustomAlert()">ঠিক আছে</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="profilePopupModal">
+    <div class="modal-box">
+      <img src="https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg" alt="RSM Group" style="width:60px; height:60px; border-radius:14px; border:2.5px solid var(--gold); object-fit:cover; margin:0 auto 14px;">
+      <h3 style="font-size:19px; font-weight:800; color:var(--primary); margin-bottom:8px;">রেফারেল ইনকাম নির্দেশিকা</h3>
+      <p style="font-size:15px; color:var(--text-muted); font-weight:500; margin-bottom:22px;">রেফার করা ব্যক্তি ২০০+ টাকার অ্যাপ্রুভড অর্ডার করলে আপনি ১০০ টাকা ফ্রি বোনাস পাবেন।</p>
+      <button class="btn btn-accent" onclick="closeProfilePopup()">বুঝেছি, শপিং করুন</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="withdrawModal">
+    <div class="modal-box" style="text-align:left;">
+      <h3 style="font-size:19px; font-weight:800; color:var(--primary); margin-bottom:14px;">টাকা উত্তোলন (Withdraw)</h3>
+      <p style="font-size:14px; color:var(--text-muted); font-weight:500; margin-bottom:18px;">সর্বনিম্ন 100 টাকা ব্যালেন্স থাকতে হবে। বিকাশ পার্সোনাল নম্বর ও উত্তোলনের পরিমাণ দিন।</p>
+      <div class="form-group"><label>পেমেন্ট পদ্ধতি</label><input class="form-control" value="বিকাশ পার্সোনাল" readonly></div>
+      <div class="form-group"><label>একাউন্ট নম্বর</label><input type="tel" class="form-control" id="withdrawNumber"></div>
+      <div class="form-group"><label>টাকার পরিমাণ</label><input type="number" class="form-control" id="withdrawAmount"></div>
+      <div style="display:flex; gap:12px; margin-top:22px;">
+        <button class="btn btn-outline" onclick="closeWithdrawModal()">বাতিল</button>
+        <button class="btn btn-primary" onclick="submitWithdraw()">সাবমিট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed-footer">
+    Developed by <a href="https://wa.me/8801612891120" target="_blank" rel="noopener">Rohan</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
+    import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+    import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyATWMcdN_LSMJeAUq84zuujkA7v0B0gQlc",
+      authDomain: "gsp-group-3ca34.firebaseapp.com",
+      projectId: "gsp-group-3ca34",
+      storageBucket: "gsp-group-3ca34.firebasestorage.app",
+      messagingSenderId: "123828183643",
+      appId: "1:123828183643:web:50890a115f10cb8e18557e",
+      measurementId: "G-XRBWNXF4MP"
+    };
+    const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+    const auth = getAuth(app), db = getFirestore(app), storage = getStorage(app);
+    isSupported().then(ok => { if (ok) getAnalytics(app); }).catch(() => {});
+    const uploadedUrls = new Map();
+
+    class QueryCompat {
+      constructor(name) { this.name = name; this.filters = []; this.sort = null; this.mode = 'select'; this.payload = null; }
+      select() { return this; }
+      eq(k, v) { this.filters.push([k, '==', v]); return this; }
+      order(k, o = {}) { this.sort = [k, o.ascending === false ? 'desc' : 'asc']; return this; }
+      insert(rows) { this.mode = 'insert'; this.payload = Array.isArray(rows) ? rows : [rows]; return this; }
+      update(row) { this.mode = 'update'; this.payload = row; return this; }
+      delete() { this.mode = 'delete'; return this; }
+      async exec() {
+        try {
+          if (this.mode === 'insert') {
+            const out = [];
+            for (const row of this.payload) {
+              const refDoc = await addDoc(collection(db, this.name), {
+                ...row,
+                created_at: row.created_at || new Date().toISOString(),
+                updated_at: row.updated_at || new Date().toISOString()
+              });
+              out.push({ id: refDoc.id, ...row });
+            }
+            return { data: out, error: null };
+          }
+          let q = collection(db, this.name);
+          this.filters.forEach(([k, op, v]) => q = query(q, where(k, op, v)));
+          const snap = await getDocs(q);
+          let rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (this.sort) {
+            const [key, dir] = this.sort;
+            rows.sort((a, b) => {
+              const av = a[key] || '', bv = b[key] || '';
+              return (av > bv ? 1 : av < bv ? -1 : 0) * (dir === 'desc' ? -1 : 1);
+            });
+          }
+          if (this.mode === 'update' || this.mode === 'delete') {
+            for (const row of rows) {
+              const r = doc(db, this.name, row.id);
+              if (this.mode === 'update') await updateDoc(r, { ...this.payload, updated_at: new Date().toISOString() });
+              else await deleteDoc(r);
+            }
+            return { data: null, error: null };
+          }
+          return { data: rows, error: null };
+        } catch (error) { return { data: null, error }; }
+      }
+      then(resolve, reject) { return this.exec().then(resolve, reject); }
+      async single() { const r = await this.exec(); return { data: r.data?.[0] || null, error: r.error }; }
+    }
+
+    const client = {
+      auth: {
+        signInWithPassword: async ({ email, password }) => {
+          try { const c = await signInWithEmailAndPassword(auth, email, password); return { data: { user: c.user }, error: null }; }
+          catch (error) { return { data: null, error }; }
+        },
+        signOut: async () => { try { await signOut(auth); return { error: null }; } catch (error) { return { error }; } }
+      },
+      from: (name) => new QueryCompat(name),
+      storage: { from: (bucket) => ({ upload: async (path, file) => {
+        try { const fr = ref(storage, bucket + '/' + path); await uploadBytes(fr, file, { contentType: file.type }); uploadedUrls.set(bucket + '/' + path, await getDownloadURL(fr)); return { error: null }; }
+        catch (error) { return { error }; }
+      }, getPublicUrl: (path) => ({ data: { publicUrl: uploadedUrls.get(bucket + '/' + path) || '' } }) }) },
+      channel: () => {
+        const listeners = [];
+        const channel = {
+          on: (e, o, cb) => { listeners.push({ name: o.table, cb }); return channel; },
+          subscribe: () => {
+            listeners.forEach(l => {
+              let q = collection(db, l.name);
+              if (l.name === 'orders' && auth.currentUser) q = query(q, where('user_email', '==', auth.currentUser.email));
+              onSnapshot(q, () => l.cb(), err => console.warn('Live listener:', err.message));
+            });
+            return channel;
+          }
+        };
+        return channel;
+      }
+    };
+
+    window.firebaseApp = app;
+    window.firebaseAuth = auth;
+    window.firebaseDb = db;
+    window.firebaseStorage = storage;
+    window.firebaseCompat = client;
+    window.firebaseReady = Promise.resolve(client);
+    window.firebaseCreateAccount = async (email, password) => createUserWithEmailAndPassword(auth, email, password);
+    window.firebaseSignOut = () => signOut(auth);
+    window.firebaseOnAuthStateChanged = cb => onAuthStateChanged(auth, cb);
+    window.firebaseDoc = doc;
+    window.firebaseRunTransaction = runTransaction;
+    window.firebaseSetDoc = setDoc;
+    window.firebaseGetDoc = getDoc;
+    window.firebaseDbInstance = db;
+  </script>
+
+  <script>
+    let products = [];
+    let noticeBanners = [];
+    const CART_KEY = 'rsm_user_cart_v1';
+    const PENDING_KEY = 'rsm_pending_order_v1';
+    function readSavedList(key) { try { const v = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(v) ? v : []; } catch (_) { return []; } }
+    let cart = readSavedList(CART_KEY).filter(i => i && i.id != null && Number(i.qty) > 0);
+    let orders = [];
+    let currentUser = null;
+    let pendingOrderItems = readSavedList(PENDING_KEY).filter(i => i && i.id != null && Number(i.qty) > 0);
+    let currentLang = localStorage.getItem('rsm_language') || 'bn';
+    let autoSlideInterval = null;
+
+    function saveData() {
+      try {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        localStorage.setItem(PENDING_KEY, JSON.stringify(pendingOrderItems));
+        localStorage.setItem('rsm_language', currentLang);
+      } catch (e) { console.warn(e); }
+    }
+
+    // ================= COPY =================
+    function showCopiedPopup(text = "Copied!") {
+      const popup = document.getElementById("copiedPopup");
+      document.getElementById("copiedText").innerText = text;
+      popup.classList.add("show");
+      clearTimeout(window._copyTimer);
+      window._copyTimer = setTimeout(() => { popup.classList.remove("show"); }, 1100);
+    }
+    async function copyText(text) {
+      if (text === null || text === undefined || String(text).trim() === '') { showCopiedPopup("Nothing to copy"); return; }
+      const value = String(text);
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = value; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+          ta.setAttribute('readonly', ''); document.body.appendChild(ta);
+          ta.select(); ta.setSelectionRange(0, ta.value.length);
+          const ok = document.execCommand('copy'); document.body.removeChild(ta);
+          if (!ok) throw new Error('execCommand failed');
+        }
+        showCopiedPopup("Copied!");
+      } catch (err) { console.error('Copy failed:', err); showCopiedPopup("Copy Failed!"); }
+    }
+    window.copyText = copyText;
+
+    function toggleDrawer(open) {
+      document.getElementById("sidebarDrawer").classList.toggle("open", open);
+      document.getElementById("drawerOverlay").classList.toggle("open", open);
+    }
+
+    function navigateTo(pageId) {
+      toggleDrawer(false);
+      document.querySelectorAll(".page-view").forEach(p => p.classList.remove("active"));
+      const el = document.getElementById(`page-${pageId}`);
+      if (el) el.classList.add("active");
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.toggle("active", item.getAttribute("data-page") === pageId);
+      });
+      window.scrollTo(0, 0);
+      
+      if (pageId === 'home') {
+         if (autoSlideInterval) { clearInterval(autoSlideInterval); autoSlideInterval = null; }
+         renderProducts();
+      }
+      if (pageId === 'cart') renderCart();
+      if (pageId === 'orders') { renderOrders(); if (currentUser) loadMyOrdersFromFirebase(); }
+      if (pageId === 'profile') {
+        renderProfile();
+        if (currentUser && !currentUser.unlocked) document.getElementById("profilePopupModal").classList.add("show");
+      }
+    }
+
+    function handleProfileNav() {
+      if (!currentUser) { toggleDrawer(false); openAuthModal('login'); }
+      else navigateTo('profile');
+    }
+
+    function showAlert(title, msg) {
+      document.getElementById("customAlertTitle").innerText = title;
+      document.getElementById("customAlertMsg").innerText = msg;
+      document.getElementById("customAlertModal").classList.add("show");
+    }
+    function closeCustomAlert() { document.getElementById("customAlertModal").classList.remove("show"); }
+
+    // ================= PRODUCTS =================
+    function renderProducts(filteredList = products) {
+      const grid = document.getElementById("productGridContainer");
+      if (!grid) return;
+      if (!filteredList.length) {
+        grid.innerHTML = `<p style="color:var(--text-muted); padding:24px; grid-column:1/-1; text-align:center;">${currentLang === 'en' ? 'No products found.' : 'কোনো পণ্য পাওয়া যায়নি।'}</p>`;
+        return;
+      }
+      grid.innerHTML = filteredList.map(p => {
+        const title = currentLang === 'en' ? (p.title_en || p.title_bn) : p.title_bn;
+        return `
+          <div class="product-card" data-product-id="${p.id}" role="button" tabindex="0">
+            <img src="${p.thumb || 'https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg'}" alt="${title}" class="product-thumb" loading="lazy">
+            <div class="product-info">
+              <div class="product-title">${title}</div>
+              <div class="product-price-box">
+                <span class="product-price">৳${p.price}</span>
+                <div class="product-rating"><span>★</span> ${p.rating || 5} (${p.reviews || 0})</div>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function filterProducts() {
+      const q = document.getElementById("searchProductInput").value.toLowerCase();
+      renderProducts(products.filter(p =>
+        (p.title_bn || '').toLowerCase().includes(q) || (p.title_en || '').toLowerCase().includes(q)
+      ));
+    }
+
+    // ===== Event delegation for product cards =====
+    document.addEventListener('click', function(e) {
+      const card = e.target.closest('.product-card');
+      if (card && card.dataset.productId) {
+        e.preventDefault();
+        openProductDetails(card.dataset.productId);
+      }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const card = e.target.closest('.product-card');
+        if (card && card.dataset.productId) {
+          e.preventDefault();
+          openProductDetails(card.dataset.productId);
+        }
+      }
+    });
+
+    // ===== Product Details (Image Slider with Auto-Scroll) =====
+    function openProductDetails(id) {
+      try {
+        id = String(id);
+        const p = products.find(i => String(i.id) === id);
+        if (!p) { showAlert("পাওয়া যায়নি", "পণ্যটি আর পাওয়া যাচ্ছে না।"); return; }
+        
+        // Clear previous auto-slide if any
+        if (autoSlideInterval) { clearInterval(autoSlideInterval); autoSlideInterval = null; }
+
+        const title = currentLang === 'en' ? (p.title_en || p.title_bn) : p.title_bn;
+        const desc = currentLang === 'en' ? (p.desc_en || p.desc_bn || '') : (p.desc_bn || p.desc_en || '');
+        
+        // Collect images (Admin can send `images` array, else use `thumb`)
+        const images = (p.images && p.images.length > 0) ? p.images : [p.thumb || 'https://i.ibb.co.com/5Wc8DJjz/Messenger-creation-0671974-A-A83-D-4-F61-A39-E-243374-AC1-E33.jpg'];
+        
+        // Slider HTML
+        let sliderHTML = '';
+        if (images.length > 1) {
+          sliderHTML = `
+            <div class="product-slider-container">
+              <div class="product-slider-track" id="prodSliderTrack">
+                ${images.map((img, i) => `<div class="product-slide-item"><img src="${img}" alt="${title}"></div>`).join('')}
+              </div>
+              <div class="slider-dots" id="prodSliderDots">
+                ${images.map((_, i) => `<div class="slider-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></div>`).join('')}
+              </div>
+            </div>`;
+        } else {
+          sliderHTML = `
+            <div class="product-slider-container">
+              <div class="product-slide-item" style="aspect-ratio:1/1;">
+                <img src="${images[0]}" alt="${title}">
+              </div>
+            </div>`;
+        }
+
+        const actionAreaHTML = `
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="btn btn-outline btn-compact" onclick='addToCart(${JSON.stringify(String(p.id))})'>${currentLang === 'en' ? 'Cart' : 'কার্ট'}</button>
+            <button class="btn btn-primary btn-compact" onclick='directOrderNow(${JSON.stringify(String(p.id))})'>${currentLang === 'en' ? 'Order Now' : 'অর্ডার নাও'}</button>
+          </div>`;
+          
+        document.getElementById("productDetailsContent").innerHTML = `
+          ${sliderHTML}
+          <h2 style="font-size:23px; font-weight:800; color:var(--primary); margin-bottom:10px;">${title}</h2>
+          <div style="font-size:26px; font-weight:800; color:var(--primary); margin-bottom:6px;">৳${p.price}</div>
+          <div style="color:var(--accent); font-weight:700; margin-bottom:16px;">${currentLang === 'en' ? 'Bonus:' : 'পণ্য বোনাস:'} ৳${Number(p.bonus_amount || 0)}</div>
+          <p style="font-size:15px; color:var(--text-muted); font-weight:500; margin-bottom:22px;">${desc}</p>
+          ${actionAreaHTML}`;
+
+        navigateTo('details');
+
+        // Init Slider Autoplay
+        if (images.length > 1) {
+          const track = document.getElementById('prodSliderTrack');
+          const dots = document.querySelectorAll('#prodSliderDots .slider-dot');
+          let currentIdx = 0;
+
+          // Scroll Listener to update dots
+          track.addEventListener('scroll', () => {
+            const itemWidth = track.clientWidth;
+            const scrollLeft = track.scrollLeft;
+            const newIdx = Math.round(scrollLeft / itemWidth);
+            if (newIdx !== currentIdx && newIdx >= 0 && newIdx < images.length) {
+              currentIdx = newIdx;
+              dots.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+            }
+          });
+
+          // Pause auto-scroll on user touch/scroll interaction
+          track.addEventListener('touchstart', stopAutoSlide, { passive: true });
+          track.addEventListener('mousedown', stopAutoSlide);
+
+          // Auto Scroll
+          autoSlideInterval = setInterval(() => {
+            currentIdx = (currentIdx + 1) % images.length;
+            track.scrollTo({ left: currentIdx * track.clientWidth, behavior: 'smooth' });
+          }, 2000); // 2 Seconds
+        }
+
+      } catch (err) { console.error(err); }
+    }
+
+    function stopAutoSlide() {
+      if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = null;
+      }
+    }
+
+    // ================= CART =================
+    function addToCart(id) {
+      const p = products.find(i => String(i.id) === String(id));
+      const exist = cart.find(i => String(i.id) === String(id));
+      if (!p) return;
+      if (exist) exist.qty += 1; else cart.push({ ...p, qty: 1 });
+      updateCartBadge(); saveData();
+      showAlert("সফল", "কার্টে যোগ করা হয়েছে!");
+    }
+
+    function directOrderNow(id) {
+      const p = products.find(i => String(i.id) === String(id));
+      if (!p) return;
+      pendingOrderItems = [{ ...p, qty: 1 }];
+      saveData(); renderOrderPageSummary(); navigateTo('order');
+    }
+
+    function proceedToOrderFromCart() {
+      if (!cart.length) return;
+      pendingOrderItems = [...cart];
+      saveData(); renderOrderPageSummary(); navigateTo('order');
+    }
+
+    function renderOrderPageSummary() {
+      const box = document.getElementById("directOrderSummaryBox");
+      const total = pendingOrderItems.reduce((s, i) => s + i.price * i.qty, 0);
+      const itemsText = pendingOrderItems.map(i => `${currentLang === 'en' ? (i.title_en || i.title_bn) : i.title_bn} (×${i.qty})`).join(', ');
+      const bonus = pendingOrderItems.reduce((s, i) => s + Number(i.bonus_amount || 0) * i.qty, 0);
+      box.innerHTML = `
+        <div style="font-size:14px; color:var(--text-muted);">${currentLang === 'en' ? 'Selected:' : 'নির্বাচিত:'} <strong style="color:var(--text);">${itemsText}</strong></div>
+        <div style="font-size:17px; color:var(--primary); font-weight:800; margin-top:6px;">${currentLang === 'en' ? 'Total:' : 'মোট টাকা:'} ৳${total}</div>
+        <div style="font-size:14px; color:var(--accent); font-weight:700;">${currentLang === 'en' ? 'Bonus:' : 'সম্ভাব্য বোনাস:'} ৳${bonus}</div>`;
+      
+      const walletGroup = document.getElementById("walletPayGroup");
+      if (walletGroup) {
+        if (currentUser && Number(currentUser.balance || 0) > 0) {
+          walletGroup.style.display = "block";
+          const hint = document.getElementById("walletHint");
+          if (hint) hint.innerText = (currentLang === 'en' ? 'Your balance: ৳' : 'আপনার ব্যালেন্স: ৳') + (currentUser.balance || 0);
+        } else {
+          walletGroup.style.display = "none";
+          const chk = document.getElementById("useWalletBalance");
+          if (chk) chk.checked = false;
+        }
+      }
+      updateWalletAmount();
+    }
+
+    function updateWalletAmount() {
+      const chk = document.getElementById("useWalletBalance");
+      const total = pendingOrderItems.reduce((s, i) => s + i.price * i.qty, 0);
+      const box = document.getElementById("directOrderSummaryBox");
+      if (!box) return;
+      const itemsText = pendingOrderItems.map(i => `${currentLang === 'en' ? (i.title_en || i.title_bn) : i.title_bn} (×${i.qty})`).join(', ');
+      const bonus = pendingOrderItems.reduce((s, i) => s + Number(i.bonus_amount || 0) * i.qty, 0);
+      if (!chk || !chk.checked) {
+        box.innerHTML = `
+          <div style="font-size:14px; color:var(--text-muted);">${currentLang === 'en' ? 'Selected:' : 'নির্বাচিত:'} <strong style="color:var(--text);">${itemsText}</strong></div>
+          <div style="font-size:17px; color:var(--primary); font-weight:800; margin-top:6px;">${currentLang === 'en' ? 'Total:' : 'মোট টাকা:'} ৳${total}</div>
+          <div style="font-size:14px; color:var(--accent); font-weight:700;">${currentLang === 'en' ? 'Bonus:' : 'সম্ভাব্য বোনাস:'} ৳${bonus}</div>`;
+        return;
+      }
+      const balance = Number(currentUser?.balance || 0);
+      const useAmount = Math.min(balance, total);
+      const remaining = Math.max(0, total - useAmount);
+      box.innerHTML = `
+        <div style="font-size:14px; color:var(--text-muted);">${currentLang === 'en' ? 'Total:' : 'মোট টাকা:'} ৳${total}</div>
+        <div style="font-size:14px; color:var(--success); font-weight:700;">${currentLang === 'en' ? 'Wallet used:' : 'ওয়ালেট থেকে:'} -৳${useAmount}</div>
+        <div style="font-size:18px; color:var(--primary); font-weight:800; margin-top:6px;">${currentLang === 'en' ? 'Cash on Delivery:' : 'ক্যাশ অন ডেলিভারি:'} ৳${remaining}</div>`;
+    }
+    window.updateWalletAmount = updateWalletAmount;
+
+    function updateCartBadge() {
+      document.getElementById("cartCountBadge").innerText = cart.reduce((s, i) => s + i.qty, 0);
+    }
+
+    function renderCart() {
+      const list = document.getElementById("cartItemsList");
+      const summary = document.getElementById("cartSummaryBox");
+      if (!cart.length) {
+        list.innerHTML = `<p style="font-size:15px; color:var(--text-muted); font-weight:500;">${currentLang === 'en' ? 'Your cart is empty.' : 'আপনার কার্ট খালি রয়েছে।'}</p>`;
+        summary.style.display = "none"; return;
+      }
+      summary.style.display = "block";
+      list.innerHTML = cart.map(i => `
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:14px; gap:12px;">
+          <div>
+            <div style="font-weight:700; font-size:15px; color:var(--text);">${currentLang === 'en' ? (i.title_en || i.title_bn) : i.title_bn}</div>
+            <div style="font-size:14px; color:var(--primary); font-weight:700;">৳${i.price} × ${i.qty}</div>
+          </div>
+          <button class="btn-slim" style="background:var(--danger); color:#FFF; padding:8px 14px;" onclick='removeFromCart(${JSON.stringify(String(i.id))})'>✕</button>
+        </div>`).join('');
+      document.getElementById("cartTotalPrice").innerText = `৳${cart.reduce((s, i) => s + i.price * i.qty, 0)}`;
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => String(i.id) !== String(id));
+      renderCart(); updateCartBadge(); saveData();
+    }
+
+    // ================= ORDER =================
+    async function submitOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById("orderFullName").value;
+      const mobile = document.getElementById("orderMobile").value;
+      const jela = document.getElementById("orderJela").value;
+      const thana = document.getElementById("orderThana").value;
+      const union = document.getElementById("orderUnion").value;
+      const village = document.getElementById("orderGram").value;
+      if (!name || !mobile || !jela || !thana || !union || !village) {
+        showAlert("সতর্কতা", "সব ঠিকানা ঘর পূরণ করুন!"); return;
+      }
+      const total = pendingOrderItems.reduce((s, i) => s + i.price * i.qty, 0);
+      const walletChk = document.getElementById("useWalletBalance");
+      const useWallet = currentUser && walletChk?.checked && Number(currentUser.balance || 0) > 0;
+      const walletDeduction = useWallet ? Math.min(Number(currentUser.balance || 0), total) : 0;
+      const dueAmount = Math.max(0, total - walletDeduction);
+      const referralCode = (document.getElementById("orderReferralCode")?.value || "").trim().toUpperCase();
+      const productNames = pendingOrderItems.map(i => `${currentLang === 'en' ? (i.title_en || i.title_bn) : i.title_bn} × ${i.qty}`).join(", ");
+
+      let savedOrder = null;
+      try {
+        const fb = await window.firebaseReady;
+        const { data: savedRows, error } = await fb.from("orders").insert([{
+          user_name: name,
+          user_email: currentUser ? currentUser.email : null,
+          customer_phone: mobile,
+          product_name: productNames,
+          items: pendingOrderItems.map(i => ({ id: i.id, title_bn: i.title_bn, title_en: i.title_en, qty: i.qty, price: i.price, bonus_amount: Number(i.bonus_amount || 0) })),
+          referral_code: referralCode,
+          address: { name, mobile, jela, thana, union, village },
+          amount: total,
+          due_amount: dueAmount,
+          wallet_used: walletDeduction,
+          payment_method: "Cash on Delivery",
+          status: "Pending"
+        }]).select().single();
+        if (error) throw error;
+        savedOrder = savedRows;
+      } catch (error) {
+        console.error("Order save failed:", error);
+        showAlert("ডাটাবেস সমস্যা", "অর্ডার জমা হয়নি। আবার চেষ্টা করুন।");
+        return;
+      }
+
+      if (walletDeduction > 0 && currentUser) {
+        try {
+          await window.firebaseRunTransaction(window.firebaseDb, async tx => {
+            const ref = window.firebaseDoc(window.firebaseDb, "users", currentUser.id);
+            const snap = await tx.get(ref);
+            if (!snap.exists()) return;
+            const bal = Number(snap.data().balance || 0);
+            tx.update(ref, { balance: Math.max(0, bal - walletDeduction), updated_at: new Date().toISOString() });
+          });
+          currentUser.balance = Math.max(0, Number(currentUser.balance || 0) - walletDeduction);
+        } catch (e) { console.warn("Wallet deduct failed:", e); }
+      }
+
+      orders.unshift({
+        id: savedOrder?.id || ("RSM-" + Math.floor(100000 + Math.random() * 900000)),
+        items: [...pendingOrderItems], total,
+        orderedByEmail: currentUser ? currentUser.email : null,
+        address: { name, mobile, jela, thana, union, village },
+        paymentMethod: "Cash on Delivery",
+        status: "Pending", isApproved: false,
+        created_at: new Date().toISOString(),
+        date: new Date().toLocaleDateString()
+      });
+
+      if (!currentUser) {
+        try {
+          const tracked = JSON.parse(localStorage.getItem("rsm_guest_order_ids") || "[]");
+          tracked.unshift({ id: savedOrder?.id || orders[0].id, phone: mobile, createdAt: new Date().toISOString() });
+          localStorage.setItem("rsm_guest_order_ids", JSON.stringify(tracked.slice(0, 30)));
+        } catch (_) {}
+      }
+
+      document.getElementById("orderReferralCode").value = "";
+      if (pendingOrderItems.length === cart.length) { cart = []; updateCartBadge(); }
+      pendingOrderItems = []; saveData();
+      showAlert("সফল", currentLang === 'en' ? "Order placed successfully!" : "অর্ডার সফলভাবে প্লেস হয়েছে!");
+      navigateTo('orders');
+    }
+
+    function renderOrders() {
+      const list = document.getElementById("myOrdersList");
+      if (!orders.length) {
+        list.innerHTML = `<p style="font-size:15px; color:var(--text-muted); font-weight:500;">${currentLang === 'en' ? 'No orders yet.' : 'আপনার কোনো অর্ডার নেই।'}</p>`;
+        return;
+      }
+      list.innerHTML = orders.map(o => {
+        const createdTime = o.created_at ? new Date(o.created_at).getTime() : 0;
+        const elapsed = createdTime ? Date.now() - createdTime : 0;
+        const minutesLeft = createdTime ? Math.max(0, 20 - Math.floor(elapsed / 60000)) : 0;
+        const isCancelled = o.status === "Cancelled";
+        const canCancel = !o.isApproved && !isCancelled && o.status !== "Delivered" && minutesLeft > 0;
+        return `
+          <div style="border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:14px; background:var(--bg-soft);">
+            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:15px; margin-bottom:10px; color:var(--primary); flex-wrap:wrap; gap:8px;">
+              <span>${currentLang === 'en' ? 'Order:' : 'অর্ডার:'} ${o.id}</span>
+              <span style="color:${o.isApproved ? 'var(--success)' : isCancelled ? 'var(--danger)' : 'var(--gold)'};">${o.status}</span>
+            </div>
+            <div style="font-size:14px; color:var(--text-muted); font-weight:500; margin-bottom:8px;">${o.date} · ৳${o.total}</div>
+            <div style="font-size:13px; color:${o.orderedByEmail ? 'var(--accent)' : 'var(--danger)'}; font-weight:700; margin-bottom:10px;">
+              ${o.orderedByEmail ? `অ্যাকাউন্ট অর্ডার` : (currentLang === 'en' ? 'Guest Order' : 'গেস্ট অর্ডার')}
+            </div>
+            <div style="font-size:14px; color:var(--text); font-weight:500; margin-bottom:14px;">${o.address.jela}, ${o.address.thana}, ${o.address.union}, ${o.address.village}</div>
+            ${canCancel ? `
+              <div style="display:flex; align-items:center; gap:10px; padding-top:12px; border-top:1px dashed var(--border); flex-wrap:wrap;">
+                <div style="flex:1; font-size:13px; color:var(--gold); font-weight:700; min-width:180px;">
+                  ${currentLang === 'en' ? `⏳ Cancel available for ${minutesLeft} more min` : `⏳ আর ${minutesLeft} মিনিট ক্যানসেল করা যাবে`}
+                </div>
+                <button class="btn-slim" style="background:var(--danger); color:#FFF; padding:8px 16px; font-size:13px;" onclick="cancelOrder('${o.id}')">
+                  ${currentLang === 'en' ? 'Cancel' : 'ক্যানসেল'}
+                </button>
+              </div>` : ''}
+          </div>`;
+      }).join('');
+    }
+
+    async function cancelOrder(orderId) {
+      const confirmMsg = currentLang === 'en' ? 'Are you sure you want to cancel this order?' : 'আপনি কি এই অর্ডারটি ক্যানসেল করতে চান?';
+      if (!confirm(confirmMsg)) return;
+      try {
+        const fb = await window.firebaseReady;
+        const docRef = window.firebaseDoc(window.firebaseDb, "orders", orderId);
+        const snap = await window.firebaseGetDoc(docRef);
+        if (!snap.exists()) { showAlert("ত্রুটি", "অর্ডার পাওয়া যায়নি।"); return; }
+        const data = snap.data();
+        const created = data.created_at ? new Date(data.created_at).getTime() : 0;
+        if (Date.now() - created > 20 * 60 * 1000) {
+          showAlert("সময় শেষ", currentLang === 'en' ? '20 minutes have passed.' : '২০ মিনিট পার হয়ে গেছে। আর ক্যানসেল করা যাবে না।');
+          return;
+        }
+        if (String(data.status || "").toLowerCase() === "approved") {
+          showAlert("সম্ভব নয়", currentLang === 'en' ? 'Approved order cannot be cancelled.' : 'অ্যাপ্রুভড অর্ডার ক্যানসেল করা যায় না।');
+          return;
+        }
+        await window.firebaseSetDoc(docRef, {
+          ...data,
+          status: "Cancelled",
+          cancelled_at: new Date().toISOString()
+        }, { merge: true });
+        if (Number(data.wallet_used || 0) > 0 && currentUser) {
+          await window.firebaseRunTransaction(window.firebaseDb, async tx => {
+            const ref = window.firebaseDoc(window.firebaseDb, "users", currentUser.id);
+            const s = await tx.get(ref);
+            if (!s.exists()) return;
+            tx.update(ref, { balance: Number(s.data().balance || 0) + Number(data.wallet_used || 0), updated_at: new Date().toISOString() });
+          });
+          currentUser.balance = Number(currentUser.balance || 0) + Number(data.wallet_used || 0);
+        }
+        showAlert("সফল", currentLang === 'en' ? 'Order cancelled.' : 'অর্ডার ক্যানসেল হয়েছে।');
+        await loadMyOrdersFromFirebase();
+      } catch (e) {
+        console.error(e);
+        showAlert("ত্রুটি", currentLang === 'en' ? 'Failed to cancel.' : 'ক্যানসেল করা যায়নি।');
+      }
+    }
+    window.cancelOrder = cancelOrder;
+
+    // ================= AUTH (200+ Approved চেক) =================
+    let isLoginMode = false;
+    let pendingReferFromUrl = '';
+
+    function openAuthModal(mode) {
+      isLoginMode = (mode === 'login');
+      document.getElementById("authTitle").innerText = isLoginMode ? (currentLang === 'en' ? "Login" : "অ্যাকাউন্টে লগইন করুন") : (currentLang === 'en' ? "Create New Account" : "নতুন অ্যাকাউন্ট তৈরি করুন");
+      document.getElementById("authSubtitle").innerText = isLoginMode ? (currentLang === 'en' ? "Enter your mobile and password" : "আপনার মোবাইল ও পাসওয়ার্ড দিন") : (currentLang === 'en' ? "Create account with mobile number" : "মোবাইল নম্বর দিয়ে অ্যাকাউন্ট তৈরি করুন");
+      document.getElementById("groupFullName").style.display = isLoginMode ? "none" : "block";
+      document.getElementById("groupConfirmPassword").style.display = isLoginMode ? "none" : "block";
+      document.getElementById("groupReferCode").style.display = isLoginMode ? "none" : "block";
+      document.getElementById("authSubmitBtn").innerText = isLoginMode ? (currentLang === 'en' ? "Login" : "লগইন করুন") : (currentLang === 'en' ? "Register" : "রেজিস্ট্রেশন করুন");
+      document.getElementById("authToggleText").innerText = isLoginMode ? (currentLang === 'en' ? "No account?" : "অ্যাকাউন্ট নেই?") : (currentLang === 'en' ? "Already have an account?" : "আগেই অ্যাকাউন্ট আছে?");
+      document.getElementById("authToggleBtn").innerText = isLoginMode ? (currentLang === 'en' ? "Register" : "রেজিস্ট্রেশন করুন") : (currentLang === 'en' ? "Login" : "লগইন করুন");
+      const noticeBox = document.getElementById("authNoticeBox");
+      if (noticeBox) noticeBox.innerHTML = '';
+      if (!isLoginMode && pendingReferFromUrl) {
+        document.getElementById("authReferInput").value = pendingReferFromUrl;
+      }
+      navigateTo('auth');
+    }
+    function toggleAuthMode() { openAuthModal(isLoginMode ? 'register' : 'login'); }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const phone = document.getElementById("authPhone").value.trim().replace(/[^0-9]/g, "");
+      const password = document.getElementById("authPassword").value;
+      const email = phone ? `phone_${phone}@rsm-user.local` : "";
+      const noticeBox = document.getElementById("authNoticeBox");
+      try {
+        if (!phone || phone.length < 10) throw new Error(currentLang === 'en' ? "Enter a valid mobile number." : "সঠিক মোবাইল নম্বর দিন।");
+
+        const fb = await window.firebaseReady;
+        const allOrders = await fb.from("orders").select("*");
+        if (allOrders.error) throw allOrders.error;
+        const hasQualified = (allOrders.data || []).some(o =>
+          String(o.customer_phone || "").replace(/[^0-9]/g, "") === phone &&
+          Number(o.amount || 0) >= 200 &&
+          String(o.status || "").toLowerCase() === "approved"
+        );
+
+        if (!hasQualified) {
+          const msg = currentLang === 'en'
+            ? "Please buy 200+ TK first! Then you can create an account."
+            : "অনুগ্রহপূর্বক আগে ২০০+ টাকা কেনাকাটা করুন! তাহলে অ্যাকাউন্ট তৈরি করতে পারবেন।";
+          if (noticeBox) {
+            noticeBox.innerHTML = `
+              <div class="reg-blocked-banner">
+                <p>${msg}</p>
+                <div class="small-note">${currentLang === 'en' ? `No approved 200+ TK order found for ${phone}.` : `আপনার এই মোবাইল নম্বরে (${phone}) ২০০+ টাকার কোনো Approved অর্ডার পাওয়া যায়নি।`}</div>
+                <div style="margin-top:14px;">
+                  <button type="button" class="btn btn-primary" onclick="navigateTo('home')" style="width:auto; padding:10px 20px; font-size:14px;">
+                    ${currentLang === 'en' ? 'Go Shop' : 'পণ্য কিনতে যান'}
+                  </button>
+                </div>
+              </div>`;
+          }
+          showAlert(currentLang === 'en' ? "Registration Blocked" : "রেজিস্ট্রেশন বন্ধ", msg);
+          return;
+        }
+
+        if (isLoginMode) {
+          const cred = await window.firebaseCompat.auth.signInWithPassword({ email, password });
+          if (cred.error) throw cred.error;
+          const snap = await window.firebaseGetDoc(window.firebaseDoc(window.firebaseDbInstance, "users", cred.data.user.uid));
+          if (!snap.exists()) throw new Error(currentLang === 'en' ? "Profile not found." : "প্রোফাইল পাওয়া যায়নি।");
+          currentUser = { ...snap.data(), id: cred.data.user.uid };
+          await loadMyOrdersFromFirebase();
+          showAlert("সফল", currentLang === 'en' ? "Login successful!" : "লগইন সফল হয়েছে!");
+          navigateTo('profile');
+        } else {
+          const name = document.getElementById("authFullName").value.trim();
+          const confirmPass = document.getElementById("authConfirmPassword").value;
+          if (!name) throw new Error(currentLang === 'en' ? "Enter full name." : "পুরো নাম লিখুন।");
+          if (password !== confirmPass) throw new Error(currentLang === 'en' ? "Passwords don't match." : "পাসওয়ার্ড মেলেনি!");
+          if (password.length < 6) throw new Error(currentLang === 'en' ? "Password must be 6+ chars." : "পাসওয়ার্ড কমপক্ষে ৬ অক্ষর।");
+
+          const referCodeInput = (document.getElementById("authReferInput").value || pendingReferFromUrl || "").trim().toUpperCase();
+          let sponsor = null;
+          if (referCodeInput) {
+            const q = await window.firebaseCompat.from("referral_codes").select().eq("code", referCodeInput);
+            if (q.error) throw q.error;
+            if (!q.data?.length) throw new Error(currentLang === 'en' ? "Invalid referral code!" : "ভুল রেফার কোড!");
+            sponsor = q.data[0];
+          }
+
+          const existing = await window.firebaseCompat.from("users").select().eq("phone", phone);
+          if (existing.error) throw existing.error;
+          if (existing.data?.length) throw new Error(currentLang === 'en' ? "Account already exists. Login." : "এই নম্বরে অ্যাকাউন্ট আছে। লগইন করুন।");
+
+          const cred = await window.firebaseCreateAccount(email, password);
+          const last4 = phone.slice(-4);
+          const codeCheck = await window.firebaseCompat.from("referral_codes").select().eq("code", last4);
+          let finalCode = last4;
+          if (codeCheck.data?.length) finalCode = last4 + Math.floor(Math.random() * 9 + 1);
+
+          const profile = {
+            name, email, phone,
+            balance: 0, refers: 0,
+            referCode: finalCode,
+            referLink: `${location.origin}${location.pathname}?ref=${finalCode}`,
+            unlocked: true,
+            sponsor: sponsor?.ownerUid || null,
+            history: [],
+            auth_user_id: cred.user.uid,
+            created_at: new Date().toISOString()
+          };
+          await window.firebaseSetDoc(window.firebaseDoc(window.firebaseDbInstance, "users", cred.user.uid), profile);
+          await window.firebaseSetDoc(window.firebaseDoc(window.firebaseDbInstance, "referral_codes", finalCode), { code: finalCode, ownerUid: cred.user.uid, created_at: new Date().toISOString() });
+          currentUser = { ...profile, id: cred.user.uid };
+
+          if (sponsor && sponsor.ownerUid) {
+            try {
+              const phoneOrders = (allOrders.data || []).filter(o =>
+                String(o.customer_phone || "").replace(/[^0-9]/g, "") === phone &&
+                String(o.status || "").toLowerCase() === "approved"
+              );
+              const totalApproved = phoneOrders.reduce((s, o) => s + Number(o.amount || 0), 0);
+              await window.firebaseCompat.from("referrals").insert([{
+                sponsor_uid: sponsor.ownerUid,
+                referred_uid: cred.user.uid,
+                referred_name: name,
+                referred_phone: phone,
+                amount: totalApproved >= 200 ? 100 : 0,
+                status: totalApproved >= 200 ? "Approved" : "Pending",
+                order_total: totalApproved,
+                bonus_paid: totalApproved >= 200,
+                note: totalApproved >= 200 ? "200+ approved order. 100 TK bonus credited." : "Awaiting 200+ approved order."
+              }]);
+              if (totalApproved >= 200) {
+                await window.firebaseRunTransaction(window.firebaseDb, async tx => {
+                  const ref = window.firebaseDoc(window.firebaseDb, "users", sponsor.ownerUid);
+                  const s = await tx.get(ref);
+                  if (!s.exists()) return;
+                  tx.update(ref, {
+                    balance: Number(s.data().balance || 0) + 100,
+                    refers: Number(s.data().refers || 0) + 1,
+                    updated_at: new Date().toISOString()
+                  });
+                });
+              }
+            } catch (refErr) { console.warn("Referral record failed:", refErr); }
+          }
+
+          showAlert("সফল", currentLang === 'en' ? `Account created! Refer code: ${finalCode}` : `অ্যাকাউন্ট তৈরি হয়েছে! রেফার কোড: ${finalCode}`);
+          navigateTo('profile');
+        }
+        document.getElementById("sidebarUserLabel").innerText = currentUser.name;
+      } catch (error) {
+        console.error(error);
+        showAlert("ত্রুটি", error.message || "Authentication failed.");
+      }
+    }
+
+    function logoutUser() {
+      window.firebaseSignOut().catch(console.error);
+      currentUser = null; orders = []; saveData();
+      document.getElementById("sidebarUserLabel").innerText = currentLang === 'en' ? "Guest User" : "অতিথি ব্যবহারকারী";
+      navigateTo('home');
+      showAlert("বার্তা", currentLang === 'en' ? "Logged out!" : "লগআউট হয়েছে!");
+    }
+
+    // ================= PROFILE =================
+    async function renderProfile() {
+      if (!currentUser) return;
+      document.getElementById("profileUserName").innerText = currentUser.name;
+      document.getElementById("profileUserEmail").innerText = currentUser.phone || "";
+      document.getElementById("profileBalance").innerText = `৳${currentUser.balance || 0}`;
+      document.getElementById("profileTotalRefers").innerText = currentUser.refers || 0;
+      document.getElementById("profileReferCode").innerText = currentUser.referCode || "----";
+      const linkEl = document.getElementById("profileReferLink");
+      if (linkEl) linkEl.innerText = currentUser.referLink || `${location.origin}${location.pathname}?ref=${currentUser.referCode}`;
+      await loadReferralHistory();
+    }
+
+    async function loadReferralHistory() {
+      const hd = document.getElementById("referHistoryList");
+      if (!currentUser) { hd.innerHTML = `<p style="color:var(--text-muted);">${currentLang === 'en' ? 'Please login.' : 'লগইন করুন।'}</p>`; return; }
+      try {
+        const fb = await window.firebaseReady;
+        const { data, error } = await fb.from("referrals").select("*").eq("sponsor_uid", currentUser.id);
+        if (error) throw error;
+        const twentyDaysAgo = Date.now() - 20 * 24 * 60 * 60 * 1000;
+        const recent = (data || [])
+          .filter(r => new Date(r.created_at).getTime() >= twentyDaysAgo)
+          .sort((a, b) => String(b.created_at).localeCompare(String(a.created_at)));
+        if (!recent.length) {
+          hd.innerHTML = `<p style="font-size:15px; color:var(--text-muted); font-weight:500;">${currentLang === 'en' ? 'No referral history yet.' : 'এখনও কোনো রেফার হিস্ট্রি নেই।'}</p>`;
+          return;
+        }
+
+        const allOrders = await fb.from("orders").select("*");
+        const ordersByPhone = {};
+        (allOrders.data || []).forEach(o => {
+          const ph = String(o.customer_phone || "").replace(/[^0-9]/g, "");
+          if (!ph) return;
+          if (!ordersByPhone[ph]) ordersByPhone[ph] = { total: 0, approved: 0 };
+          const amt = Number(o.amount || 0);
+          ordersByPhone[ph].total += amt;
+          if (String(o.status || "").toLowerCase() === "approved") ordersByPhone[ph].approved += amt;
+        });
+
+        hd.innerHTML = recent.map(r => {
+          const statusClass = r.status === 'Approved' ? 'status-approved' : r.status === 'Rejected' ? 'status-rejected' : 'status-pending';
+          const statusText = r.status === 'Approved' ? 'Approved' : r.status === 'Rejected' ? 'Rejected' : 'Pending';
+          const ph = String(r.referred_phone || "").replace(/[^0-9]/g, "");
+          const stats = ordersByPhone[ph] || { total: 0, approved: 0 };
+          const spent = stats.approved;
+          const remaining = Math.max(0, 200 - spent);
+          const progress = Math.min(100, Math.round((spent / 200) * 100));
+          const bonusGiven = r.status === 'Approved' || r.bonus_paid === true;
+
+          return `
+            <div style="padding:16px 0; border-bottom:1px solid var(--border);">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;">
+                <div>
+                  <div style="font-weight:800; color:var(--text); font-size:15px;">${r.referred_name || 'Referral'}</div>
+                  <div style="font-size:13px; color:var(--text-muted);">${r.referred_phone || ''}</div>
+                </div>
+                <span class="status-badge ${statusClass}">${statusText}</span>
+              </div>
+
+              <div style="background:var(--bg-soft); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-top:8px;">
+                <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:6px;">
+                  <span style="color:var(--text-muted);">${currentLang === 'en' ? 'Purchase Progress' : 'কেনাকাটার অগ্রগতি'}</span>
+                  <span style="color:${spent >= 200 ? 'var(--success)' : 'var(--gold)'};">৳${spent} / ৳200</span>
+                </div>
+                <div style="width:100%; height:8px; background:var(--border); border-radius:99px; overflow:hidden;">
+                  <div style="height:100%; width:${progress}%; background:${spent >= 200 ? 'linear-gradient(90deg,#059669,#10B981)' : 'linear-gradient(90deg,#D4A017,#F0C040)'}; border-radius:99px; transition:width 0.4s ease;"></div>
+                </div>
+                <div style="font-size:12.5px; margin-top:8px; font-weight:600; color:${spent >= 200 ? 'var(--success)' : 'var(--text-muted)'};">
+                  ${spent >= 200
+                    ? (currentLang === 'en' ? `🎉 ৳200 reached! Bonus ৳100 ${bonusGiven ? 'credited' : 'pending'}.` : `🎉 ৳200 পূর্ণ! ৳100 বোনাস ${bonusGiven ? 'যোগ হয়েছে' : 'অপেক্ষমাণ'}।`)
+                    : (currentLang === 'en' ? `৳${remaining} more needed to unlock ৳100 bonus.` : `আরও ৳${remaining} কেনাকাটা করলে ৳100 বোনাস পাবেন।`)}
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; font-size:13px; margin-top:8px; color:var(--text-muted);">
+                <span>${currentLang === 'en' ? 'Bonus' : 'বোনাস'}: <strong style="color:${bonusGiven ? 'var(--success)' : 'var(--gold)'};">৳${r.amount || 100}</strong></span>
+                <span>${currentLang === 'en' ? 'Order Total' : 'অর্ডার টোটাল'}: ৳${r.order_total || 0}</span>
+              </div>
+            </div>`;
+        }).join('');
+      } catch (error) {
+        console.error(error);
+        hd.innerHTML = `<p style="color:var(--text-muted);">${currentLang === 'en' ? 'Failed to load.' : 'রেফার হিস্ট্রি লোড হয়নি।'}</p>`;
+      }
+    }
+
+    function closeProfilePopup() { document.getElementById("profilePopupModal").classList.remove("show"); }
+
+    function openWithdrawModal() {
+      if (!currentUser) { openAuthModal('login'); return; }
+      document.getElementById("withdrawModal").classList.add("show");
+    }
+    function closeWithdrawModal() { document.getElementById("withdrawModal").classList.remove("show"); }
+
+    async function submitWithdraw() {
+      const amount = Number(document.getElementById("withdrawAmount").value);
+      const number = document.getElementById("withdrawNumber").value.trim();
+      if (Number(currentUser.balance || 0) < 100) { showAlert("ত্রুটি", "কমপক্ষে 100 টাকা ব্যালেন্স থাকতে হবে।"); return; }
+      if (!Number.isFinite(amount) || amount < 100) { showAlert("ত্রুটি", "সর্বনিম্ন উইথড্র 100 টাকা!"); return; }
+      if (amount > Number(currentUser.balance || 0)) { showAlert("ত্রুটি", "পর্যাপ্ত ব্যালেন্স নেই!"); return; }
+      if (!number) { showAlert("ত্রুটি", "সঠিক বিকাশ নম্বর দিন!"); return; }
+      try {
+        const fb = await window.firebaseReady;
+        await window.firebaseRunTransaction(window.firebaseDb, async tx => {
+          const ref = window.firebaseDoc(window.firebaseDb, "users", currentUser.id);
+          const snap = await tx.get(ref);
+          if (!snap.exists()) throw new Error("ইউজার পাওয়া যায়নি।");
+          const lb = Number(snap.data().balance || 0);
+          if (lb < 100 || amount > lb) throw new Error("পর্যাপ্ত ব্যালেন্স নেই।");
+          tx.update(ref, { balance: lb - amount, updated_at: new Date().toISOString() });
+        });
+        const { error } = await fb.from("withdrawals").insert([{
+          user_email: currentUser.email, user_id: currentUser.id, user_name: currentUser.name,
+          amount, payment_method: "bKash Personal", account_number: number, status: "Pending"
+        }]);
+        if (error) throw error;
+        currentUser.balance = Number(currentUser.balance || 0) - amount;
+        renderProfile(); closeWithdrawModal();
+        showAlert("সফল", "উইথড্র রিকোয়েস্ট অ্যাডমিনের কাছে পাঠানো হয়েছে।");
+        document.getElementById("withdrawAmount").value = "";
+        document.getElementById("withdrawNumber").value = "";
+      } catch (error) {
+        console.error(error);
+        showAlert("ত্রুটি", error.message || "উইথড্র পাঠানো যায়নি।");
+      }
+    }
+
+    async function loadStorefrontFromFirebase() {
+      try {
+        const fb = await window.firebaseReady;
+        const [{ data: pRows, error: pErr }, { data: bRows, error: bErr }] = await Promise.all([
+          fb.from("products").select("*").eq("is_active", true).order("created_at", { ascending: false }),
+          fb.from("banners").select("*").order("created_at", { ascending: false })
+        ]);
+        if (pErr) throw pErr;
+        if (bErr) throw bErr;
+        products = (pRows || []).map(p => ({
+          ...p, id: p.id, thumb: (p.images || [])[0] || "",
+          rating: p.rating || 5, reviews: p.reviews || 0
+        }));
+        noticeBanners = bRows || [];
+        renderProducts();
+        const host = document.getElementById("liveNoticeBanners");
+        if (host) {
+          host.innerHTML = noticeBanners.length
+            ? noticeBanners.map((b, i) => `<div class="notice-banner-card"><img src="${b.image_url}" alt="Banner ${i+1}" loading="lazy"></div>`).join("")
+            : `<p style="color:var(--text-muted);">${currentLang === 'en' ? 'No banners yet.' : 'এখনো কোনো নোটিশ ব্যানার নেই।'}</p>`;
+        }
+      } catch (error) { console.error("Storefront sync failed:", error); }
+    }
+
+    async function loadMyOrdersFromFirebase() {
+      try {
+        const fb = await window.firebaseReady;
+        let result;
+        if (currentUser) result = await fb.from("orders").select("*").eq("user_email", currentUser.email).order("created_at", { ascending: false });
+        else {
+          const tracked = JSON.parse(localStorage.getItem("rsm_guest_order_ids") || "[]");
+          const phones = [...new Set(tracked.map(x => String(x.phone || "")).filter(Boolean))];
+          if (!phones.length) { renderOrders(); return; }
+          const all = await fb.from("orders").select("*");
+          result = { data: (all.data || []).filter(o => phones.includes(String(o.customer_phone || ""))).sort((a, b) => String(b.created_at || "").localeCompare(String(a.created_at || ""))), error: all.error };
+        }
+        const { data, error } = result;
+        if (error) throw error;
+        orders = (data || []).map(o => ({
+          id: o.id, total: o.amount, status: o.status, isApproved: o.status === "Approved",
+          date: new Date(o.created_at || Date.now()).toLocaleDateString(),
+          created_at: o.created_at,
+          orderedByEmail: o.user_email,
+          address: { jela: o.address?.jela || "", thana: o.address?.thana || "", union: o.address?.union || "", village: o.address?.village || "" },
+          items: o.items || [], paymentMethod: o.payment_method,
+          wallet_used: o.wallet_used || 0
+        }));
+        renderOrders();
+      } catch (error) { console.error("Order refresh failed", error); }
+    }
+
+    (function parseReferFromUrl() {
+      const params = new URLSearchParams(location.search);
+      const ref = (params.get('ref') || '').trim().toUpperCase();
+      if (ref) {
+        pendingReferFromUrl = ref;
+        setTimeout(() => {
+          if (!currentUser) {
+            openAuthModal('register');
+            const el = document.getElementById("authReferInput");
+            if (el) el.value = ref;
+          }
+        }, 400);
+      }
+    })();
+
+    async function approveOrderAndCreditReferral(orderId) {
+      try {
+        const fb = await window.firebaseReady;
+        const orderSnap = await fb.from("orders").select("*");
+        const order = (orderSnap.data || []).find(o => o.id === orderId);
+        if (!order) throw new Error("Order not found");
+        if (String(order.status || "").toLowerCase() === "approved") return { success: true, message: "Already approved" };
+
+        await window.firebaseSetDoc(window.firebaseDoc(window.firebaseDb, "orders", orderId), {
+          ...order, status: "Approved", approved_at: new Date().toISOString()
+        }, { merge: true });
+
+        const phone = String(order.customer_phone || "").replace(/[^0-9]/g, "");
+        if (!phone) return { success: true, message: "No phone on order" };
+
+        const allRefs = await fb.from("referrals").select("*");
+        const ref = (allRefs.data || []).find(r => {
+          const rph = String(r.referred_phone || "").replace(/[^0-9]/g, "");
+          return rph === phone && r.status !== "Approved";
+        });
+        if (!ref) return { success: true, message: "No pending referral for this phone" };
+
+        const allOrders = await fb.from("orders").select("*");
+        const approvedTotal = (allOrders.data || []).reduce((sum, o) => {
+          const oph = String(o.customer_phone || "").replace(/[^0-9]/g, "");
+          const isMatch = oph === phone;
+          const isApproved = String(o.status || "").toLowerCase() === "approved";
+          return sum + (isMatch && isApproved ? Number(o.amount || 0) : 0);
+        }, 0);
+
+        const refDoc = window.firebaseDoc(window.firebaseDb, "referrals", ref.id);
+        await window.firebaseSetDoc(refDoc, {
+          ...ref, order_total: approvedTotal,
+          status: approvedTotal >= 200 ? "Approved" : "Pending",
+          updated_at: new Date().toISOString()
+        }, { merge: true });
+
+        if (approvedTotal >= 200 && ref.sponsor_uid && !ref.bonus_paid) {
+          await window.firebaseRunTransaction(window.firebaseDb, async tx => {
+            const sponsorRef = window.firebaseDoc(window.firebaseDb, "users", ref.sponsor_uid);
+            const sponsorSnap = await tx.get(sponsorRef);
+            if (!sponsorSnap.exists()) return;
+            tx.update(sponsorRef, {
+              balance: Number(sponsorSnap.data().balance || 0) + 100,
+              refers: Number(sponsorSnap.data().refers || 0) + 1,
+              updated_at: new Date().toISOString()
+            });
+          });
+          await window.firebaseSetDoc(refDoc, {
+            ...ref, status: "Approved", bonus_paid: true, bonus_amount: 100, paid_at: new Date().toISOString()
+          }, { merge: true });
+          return { success: true, message: "Approved & ৳100 credited to referrer" };
+        }
+        return { success: true, message: `Updated. Total: ৳${approvedTotal}` };
+      } catch (e) {
+        console.error(e);
+        return { success: false, message: e.message };
+      }
+    }
+    window.approveOrderAndCreditReferral = approveOrderAndCreditReferral;
+
+    // Init
+    updateCartBadge();
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      updateCartBadge();
+      renderCart();
+      navigateTo('home');
+      const fb = await window.firebaseReady;
+      await loadStorefrontFromFirebase();
+      if (currentUser) await loadMyOrdersFromFirebase();
+      fb.channel("rsm-storefront-live").on("firestore", { table: "products" }, loadStorefrontFromFirebase).subscribe();
+      fb.channel("rsm-banners-live").on("firestore", { table: "banners" }, loadStorefrontFromFirebase).subscribe();
+    }, { once: true });
+
+    window.addEventListener("DOMContentLoaded", () => window.firebaseOnAuthStateChanged(async authUser => {
+      if (!authUser) { currentUser = null; return; }
+      try {
+        const snap = await window.firebaseGetDoc(window.firebaseDoc(window.firebaseDbInstance, "users", authUser.uid));
+        if (!snap.exists()) return;
+        currentUser = { ...snap.data(), id: authUser.uid };
+        document.getElementById("sidebarUserLabel").innerText = currentUser.name || authUser.email;
+        await loadMyOrdersFromFirebase();
+        renderProfile();
+      } catch (err) { console.error("Profile restore failed", err); }
+    }), { once: true });
+  </script>
+</body>
+</html>
